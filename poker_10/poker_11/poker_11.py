@@ -346,23 +346,32 @@ def main_code(num_of_players, user_card_1_num, user_card_1_suit, user_card_2_num
 class MyApp(App):
 
 
+    def play_again(self):
+        self.rows.clear_widgets()
+        self.build()
+
+
     def add_num(self, instance):
-        if MyApp.step == 2:
-            if MyApp.card_num == 2:
-                MyApp.user_card_2_num = str(instance.text)
-                self.lbl.text = str(MyApp.user_card_1_num) + str(MyApp.user_card_1_suit) + '   ' + str(MyApp.user_card_2_num) + str(MyApp.user_card_2_suit)
-                print(MyApp.user_card_2_num) 
-            
-            if MyApp.card_num == 1:
-                MyApp.user_card_1_num = str(instance.text)
-                MyApp.card_num += 1
-                self.lbl.text = str(MyApp.user_card_1_num) + str(MyApp.user_card_1_suit) + '   ' + str(MyApp.user_card_2_num) + str(MyApp.user_card_2_suit)
-                print(MyApp.user_card_1_num)
+        if MyApp.end == 0:           
+            if MyApp.step == 2:
+                if MyApp.card_num == 2:
+                    MyApp.user_card_2_num = str(instance.text)
+                    self.lbl.text = str(MyApp.user_card_1_num) + str(MyApp.user_card_1_suit) + '   ' + str(MyApp.user_card_2_num) + str(MyApp.user_card_2_suit)
+                    print(MyApp.user_card_2_num) 
+                
+                if MyApp.card_num == 1:
+                    MyApp.user_card_1_num = str(instance.text)
+                    MyApp.card_num += 1
+                    self.lbl.text = str(MyApp.user_card_1_num) + str(MyApp.user_card_1_suit) + '   ' + str(MyApp.user_card_2_num) + str(MyApp.user_card_2_suit)
+                    print(MyApp.user_card_1_num)
+            else:
+                MyApp.num_of_players = int(instance.text)
+                print(MyApp.num_of_players)
+                self.lbl.text = 'Какие у вас карты?'
+                MyApp.step = 2
         else:
-            MyApp.num_of_players = int(instance.text)
-            print(MyApp.num_of_players)
-            self.lbl.text = 'Какие у вас карты?'
-            MyApp.step = 2
+            self.play_again()        
+
 
     def add_user_card_num(self, instance):
         if MyApp.card_num == 2:
@@ -401,36 +410,36 @@ class MyApp(App):
         MyApp.end = 0
         MyApp.answer = ''
 
-        rows = BoxLayout(orientation = 'vertical') #, padding = [10, 30, 10, 450])
+        self.rows = BoxLayout(orientation = 'vertical') #, padding = [10, 30, 10, 450])
         suits = BoxLayout(orientation = 'horizontal', spacing = 10, padding = [30], size_hint = (1, .20))
         num = GridLayout(cols = 3, spacing = 10, padding = [50, 0], size_hint = (1, .4))
         j_a = BoxLayout(orientation = 'horizontal', spacing = 10, padding = [30], size_hint = (1, .20))
 
         self.lbl = Label(text = 'Сколько игроков за столом?', font_size = 20, size_hint=(1, .3))
-        rows.add_widget(self.lbl)
+        self.rows.add_widget(self.lbl)
 
-        suits.add_widget(Button(text = 'ch', font_size = 27, background_color = [1, 0, 1, 1], on_press = self.add_user_card_suit))
-        suits.add_widget(Button(text = 'bu', font_size = 27, background_color = [1, 0, 1, 1], on_press = self.add_user_card_suit))
-        suits.add_widget(Button(text = 'kr', font_size = 27, background_color = [1, 0, 1, 1], on_press = self.add_user_card_suit))
-        suits.add_widget(Button(text = 'pi', font_size = 27, background_color = [1, 0, 1, 1], on_press = self.add_user_card_suit))
+        suits.add_widget(Button(text = 'ch', font_size = 27, background_color = [1, 0, 0, 1], on_press = self.add_user_card_suit))
+        suits.add_widget(Button(text = 'bu', font_size = 27, background_color = [1, 0, 0, 1], on_press = self.add_user_card_suit))
+        suits.add_widget(Button(text = 'kr', font_size = 27, background_color = [1, 1, 1, .3], on_press = self.add_user_card_suit))
+        suits.add_widget(Button(text = 'pi', font_size = 27, background_color = [1, 1, 1, .3], on_press = self.add_user_card_suit))
 
-        rows.add_widget(suits)
+        self.rows.add_widget(suits)
 
         for i in range(2, 11):
-            btn1 = Button(text = str(i), font_size = 27, background_color = [1, 0, 1, 1])
+            btn1 = Button(text = str(i), font_size = 27, background_color = [1, 1, 1, 1])
             btn1.bind(on_press = self.add_num)
             num.add_widget(btn1)
             
-        rows.add_widget(num)
+        self.rows.add_widget(num)
         
-        j_a.add_widget(Button(text = 'J', font_size = 27, background_color = [1, 0, 1, 1], on_press = self.add_user_card_num))
-        j_a.add_widget(Button(text = 'Q', font_size = 27, background_color = [1, 0, 1, 1], on_press = self.add_user_card_num))
-        j_a.add_widget(Button(text = 'K', font_size = 27, background_color = [1, 0, 1, 1], on_press = self.add_user_card_num))
-        j_a.add_widget(Button(text = 'A', font_size = 27, background_color = [1, 0, 1, 1], on_press = self.add_user_card_num))
+        j_a.add_widget(Button(text = 'J', font_size = 27, background_color = [1, 1, 1, .7], on_press = self.add_user_card_num))
+        j_a.add_widget(Button(text = 'Q', font_size = 27, background_color = [1, 1, 1, .7], on_press = self.add_user_card_num))
+        j_a.add_widget(Button(text = 'K', font_size = 27, background_color = [1, 1, 1, .7], on_press = self.add_user_card_num))
+        j_a.add_widget(Button(text = 'A', font_size = 27, background_color = [1, 1, 1, .7], on_press = self.add_user_card_num))
 
-        rows.add_widget(j_a)
+        self.rows.add_widget(j_a)
         
-        return rows    
+        return self.rows    
 
 
 if __name__ == '__main__':
