@@ -338,8 +338,10 @@ def main_code(num_of_players, user_card_1_num, user_card_1_suit, user_card_2_num
             
         
     print('')
-    print(str(kol_wins//(pogr//100)) + ',' + str(kol_wins%(pogr//100)) + '%')    
-
+    print(str(kol_wins//(pogr//100)) + ',' + str(kol_wins%(pogr//100)) + '%')  
+    ans = str(kol_wins//(pogr//100)) + ',' + str(kol_wins%(pogr//100)) + '%'
+    MyApp.end = 1
+    MyApp.answer = ans
 
 class MyApp(App):
 
@@ -380,6 +382,7 @@ class MyApp(App):
             self.lbl.text = str(MyApp.user_card_1_num) + str(MyApp.user_card_1_suit) + '   ' + str(MyApp.user_card_2_num) + str(MyApp.user_card_2_suit)
             print(MyApp.user_card_2_suit)
             main_code(MyApp.num_of_players, MyApp.user_card_1_num, MyApp.user_card_1_suit, MyApp.user_card_2_num, MyApp.user_card_2_suit)
+            self.lbl.text = MyApp.answer
         if MyApp.card_suit == 1:
             MyApp.user_card_1_suit = str(instance.text)
             MyApp.card_suit += 1
@@ -395,6 +398,8 @@ class MyApp(App):
         MyApp.user_card_1_suit = ''
         MyApp.user_card_2_num = ''
         MyApp.user_card_2_suit = ''
+        MyApp.end = 0
+        MyApp.answer = ''
 
         rows = BoxLayout(orientation = 'vertical') #, padding = [10, 30, 10, 450])
         suits = BoxLayout(orientation = 'horizontal', spacing = 10, padding = [30], size_hint = (1, .20))
