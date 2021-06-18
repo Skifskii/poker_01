@@ -346,43 +346,63 @@ class MyApp(App):
 
     def add_num(self, instance):
         if MyApp.step == 2:
-            if MyApp.card == 1:
-                MyApp.user_card_1_num = str(instance)
-                MyApp.card += 1
-            if MyApp.card == 2:
-                MyApp.user_card_2_num = str(instance) 
+            if MyApp.card_num == 2:
+                MyApp.user_card_2_num = str(instance.text)
+                self.lbl.text = str(MyApp.user_card_1_num) + str(MyApp.user_card_1_suit) + '   ' + str(MyApp.user_card_2_num) + str(MyApp.user_card_2_suit)
+                print(MyApp.user_card_2_num) 
+            
+            if MyApp.card_num == 1:
+                MyApp.user_card_1_num = str(instance.text)
+                MyApp.card_num += 1
+                self.lbl.text = str(MyApp.user_card_1_num) + str(MyApp.user_card_1_suit) + '   ' + str(MyApp.user_card_2_num) + str(MyApp.user_card_2_suit)
+                print(MyApp.user_card_1_num)
         else:
             MyApp.num_of_players = int(instance.text)
             print(MyApp.num_of_players)
+            self.lbl.text = 'Какие у вас карты?'
             MyApp.step = 2
 
     def add_user_card_num(self, instance):
-        if MyApp.card == 1:
-            MyApp.user_card_1_num = str(instance)
-            MyApp.card += 1
-        if MyApp.card == 2:
-            MyApp.user_card_2_num = str(instance) 
+        if MyApp.card_num == 2:
+            MyApp.user_card_2_num = str(instance.text)
+            self.lbl.text = str(MyApp.user_card_1_num) + str(MyApp.user_card_1_suit) + '   ' + str(MyApp.user_card_2_num) + str(MyApp.user_card_2_suit)
+            print(MyApp.user_card_2_num)
+        if MyApp.card_num == 1:
+            MyApp.user_card_1_num = str(instance.text)
+            MyApp.card_num += 1
+            self.lbl.text = str(MyApp.user_card_1_num) + str(MyApp.user_card_1_suit) + '   ' + str(MyApp.user_card_2_num) + str(MyApp.user_card_2_suit)
+            print(MyApp.user_card_1_num) 
 
 
     def add_user_card_suit(self, instance):
-        if MyApp.card == 1:
-            MyApp.user_card_1_suit = str(instance)
-            MyApp.card += 1
-        if MyApp.card == 2:
-            MyApp.user_card_2_suit = str(instance)
-            main_code(MyApp.num_of_players, MyApp.user_card_1_num, MyApp.user_card_1_suit, MyApp.user_card_2_num, MyApp.user_card_2_suit)            
-
+        if MyApp.card_suit == 2:
+            MyApp.user_card_2_suit = str(instance.text)
+            self.lbl.text = str(MyApp.user_card_1_num) + str(MyApp.user_card_1_suit) + '   ' + str(MyApp.user_card_2_num) + str(MyApp.user_card_2_suit)
+            print(MyApp.user_card_2_suit)
+            main_code(MyApp.num_of_players, MyApp.user_card_1_num, MyApp.user_card_1_suit, MyApp.user_card_2_num, MyApp.user_card_2_suit)
+        if MyApp.card_suit == 1:
+            MyApp.user_card_1_suit = str(instance.text)
+            MyApp.card_suit += 1
+            self.lbl.text = str(MyApp.user_card_1_num) + str(MyApp.user_card_1_suit) + '   ' + str(MyApp.user_card_2_num) + str(MyApp.user_card_2_suit)
+            print(MyApp.user_card_1_suit)
+                    
 
     def build(self):
         MyApp.step = 1
-        MyApp.card = 1
+        MyApp.card_num = 1
+        MyApp.card_suit = 1
+        MyApp.user_card_1_num = ''
+        MyApp.user_card_1_suit = ''
+        MyApp.user_card_2_num = ''
+        MyApp.user_card_2_suit = ''
 
         rows = BoxLayout(orientation = 'vertical') #, padding = [10, 30, 10, 450])
         suits = BoxLayout(orientation = 'horizontal', spacing = 10, padding = [30], size_hint = (1, .20))
         num = GridLayout(cols = 3, spacing = 10, padding = [50, 0], size_hint = (1, .4))
         j_a = BoxLayout(orientation = 'horizontal', spacing = 10, padding = [30], size_hint = (1, .20))
 
-        rows.add_widget(Label(text = 'Сколько игроков за столом?', font_size = 20, size_hint=(1, .3)))
+        self.lbl = Label(text = 'Сколько игроков за столом?', font_size = 20, size_hint=(1, .3))
+        rows.add_widget(self.lbl)
 
         suits.add_widget(Button(text = 'ch', font_size = 27, background_color = [1, 0, 1, 1], on_press = self.add_user_card_suit))
         suits.add_widget(Button(text = 'bu', font_size = 27, background_color = [1, 0, 1, 1], on_press = self.add_user_card_suit))
